@@ -1,23 +1,23 @@
-import "dotenv/config";
-import morgan from "morgan";
-import cors from "cors";
-import express, { NextFunction, Response, Request } from "express";
-import session from "express-session";
 import MongoStore from "connect-mongo";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import "dotenv/config";
+import express, { NextFunction, Request, Response } from "express";
+import session from "express-session";
 import createHttpError, { isHttpError } from "http-errors";
-import notesRoutes from "./routes/notes";
-import productsRoutes from "./routes/products";
-import storeRoutes from "./routes/stores";
-import usersRoutes from "./routes/users";
+import morgan from "morgan";
+import { verifyJWT } from "./middleware/verifyJWT";
 import authRoutes from "./routes/auth";
 import mapRoutes from "./routes/map";
-import reportsRoutes from "./routes/reports";
+import notesRoutes from "./routes/notes";
 import notificationRoutes from "./routes/notification";
+import productsRoutes from "./routes/products";
+import reportsRoutes from "./routes/reports";
 import shoppingListRoutes from "./routes/shoppingList";
 import shoppingListHistoryRoutes from "./routes/shoppingListHistory";
+import storeRoutes from "./routes/stores";
+import usersRoutes from "./routes/users";
 import env from "./util/validateEnv";
-import { verifyJWT } from "./middleware/verifyJWT";
-import cookieParser from "cookie-parser";
 
 const app = express();
 
