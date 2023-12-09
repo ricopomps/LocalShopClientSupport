@@ -1,0 +1,76 @@
+.gridContainer {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.gridCell {
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.purple {
+  background-color: purple;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.path {
+  background-color: var(--amarelo);
+}
+
+.selected {
+  border: 5px solid var(--amarelo);
+}
+
+.supportColumn {
+  display: grid;
+}
+
+.supportCell {
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+}
+
+.supportCellContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.supportSquare {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+}
+
+.supportText {
+  font-size: 14px;
+  color: #f0f0f0;
+}
+
+.buttonMap {
+  margin: 15px 0 15px 0;
+}

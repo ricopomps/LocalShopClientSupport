@@ -1,0 +1,91 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.scrollableContent {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollIndicators {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.scrollIndicatorLeft,
+.scrollIndicatorRight {
+  font-size: 1.5rem;
+  color: rgba(var(--bs-dark-rgb));
+  margin: 0 0.5rem;
+  cursor: pointer;
+  transition: color 0.3s;
+  pointer-events: auto;
+  background-color: var(--amarelo);
+  border-radius: 50px;
+}
+
+.scrollIndicatorLeft:hover,
+.scrollIndicatorRight:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollableContent {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollIndicators {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.scrollIndicator {
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.scrollIndicator:hover {
+  color: rgba(0, 0, 0, 0.8);
+}

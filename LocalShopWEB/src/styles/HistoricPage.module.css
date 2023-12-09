@@ -1,0 +1,168 @@
+.main {
+  font-family: "Gotham", sans-serif;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: "Inter", sans-serif;
+  width: 50em;
+  height: 40em;
+  gap: 1em;
+  padding: 1em;
+  border-radius: 1em;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.descricao {
+  display: flex;
+  font-family: "Gotham", sans-serif;
+  border-radius: 1em;
+  color: var(--amarelo);
+  font-size: 24px;
+}
+
+.favIcon {
+  font-size: 60px;
+  background-color: var(--amarelo);
+  border-radius: 20%;
+  padding: 10px;
+}
+
+.stock {
+  width: 100%;
+  text-align: center;
+  border-radius: 50px;
+  padding: 20px;
+  background-color: #5c5c5c;
+  color: white;
+}
+
+.addRemoveButton {
+  width: 8em;
+}
+.lateral {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4.25em;
+}
+.historicCard {
+  white-space: pre-line;
+  width: 25em;
+  height: 40em;
+  box-shadow: 4px 8px 4px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 0 30px 30px 0;
+  margin-bottom: 0.5em;
+  border: none;
+  background-color: #d9d9d9;
+}
+.itemCard {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", sans-serif;
+  width: 50em;
+  height: 40em;
+  gap: 1em;
+  padding: 1em;
+  border-radius: 30px 0 0 30px;
+  background-color: #d9d9d9;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: scroll;
+}
+
+.itemCard::-webkit-scrollbar {
+  display: none;
+}
+
+.historicItemCard {
+  white-space: pre-line;
+  width: 100%;
+  height: auto;
+  box-shadow: 4px 8px 4px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin-bottom: 0.5em;
+  border: none;
+  display: flex;
+  cursor: pointer;
+}
+
+.historicItemImage {
+  width: 135px;
+  height: 135px;
+  border-radius: 5px;
+  margin-right: 1em;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardItemBody {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.titleText {
+  font-family: "Inter", sans-serif;
+  font-size: 42px;
+}
+
+.titleProduct {
+  font-family: "Gotham", sans-serif;
+  font-size: 30px;
+}
+
+.historicText {
+  font-size: 20px;
+  color: #333;
+}
+
+.item {
+  justify-content: normal;
+}
+
+.historicImage {
+  border-radius: 0 30px 0 0;
+}
+
+.priceText {
+  font: "Inter", sans-serif;
+  font-size: 40px;
+}
+
+.esquerda {
+  font-family: "Gotham", sans-serif;
+  font-size: 70px;
+}
+.direita {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding: 1em;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    zoom: 60%;
+  }
+}

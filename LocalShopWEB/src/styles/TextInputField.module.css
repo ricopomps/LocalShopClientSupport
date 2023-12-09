@@ -1,0 +1,44 @@
+.main {
+  font-family: "Gotham", sans-serif;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.input {
+  font-family: "Inter", sans-serif;
+  font-size: 26px;
+  font-weight: 300;
+  background-color: #5c5c5c;
+  color: #dddddd;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 2em;
+}
+
+.input:focus {
+  background-color: #5c5c5c;
+  color: #cecece;
+}
+
+.input::placeholder {
+  background-color: #5c5c5c;
+  color: #cecece;
+}
+
+.input:disabled {
+  background-color: #5c5c5c;
+  color: #dddddd;
+}
+
+.label {
+  margin: 0;
+}

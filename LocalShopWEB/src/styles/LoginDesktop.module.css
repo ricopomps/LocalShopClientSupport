@@ -1,0 +1,85 @@
+.main {
+  font-family: "Gotham", sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputLogin {
+  font-family: "Inter", sans-serif;
+  font-size: 26px;
+  font-weight: 300;
+  background-color: #5c5c5c;
+  color: #dddddd;
+  padding: 0.5em 0;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 2em;
+}
+
+label {
+  color: #dddddd;
+}
+
+.inputLogin:focus {
+  background-color: #5c5c5c;
+  color: #dddddd;
+}
+
+.inputLogin::placeholder {
+  color: #b6b5b5;
+}
+
+.imageLogin {
+  width: 233px;
+}
+
+.btn {
+  font-family: "Gotham", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: black;
+  background-color: #f8ce41;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  margin: 0.5em 0;
+  width: 16em;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cadastreLink {
+  color: #e7bf46;
+  text-decoration: none;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 3.5em;
+}
+
+.btn:hover {
+  background-color: #ffffff;
+  border-color: black;
+  transition: 0.5s;
+}
+
+.mainText {
+  font-family: "Gotham", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--amarelo);
+  margin-bottom: 0.5em;
+}

@@ -1,0 +1,99 @@
+.main {
+  font-family: "Gotham", sans-serif;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.imageLogin {
+  width: 25%;
+}
+.inputLogin {
+  font-family: "Inter", sans-serif;
+  font-size: 26px;
+  font-weight: 300;
+  background-color: #5c5c5c;
+  color: #dddddd;
+  padding: 0.5em 0;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 2em;
+}
+
+.inputLogin:focus {
+  background-color: #5c5c5c;
+  color: #cecece;
+}
+.inputLogin::placeholder {
+  background-color: #5c5c5c;
+  color: #cecece;
+}
+
+.inputSenha {
+  font-family: "Inter", sans-serif;
+  font-size: 26px;
+  font-weight: 300;
+  background-color: #5c5c5c;
+  color: #dddddd;
+  padding: 0.5em 0;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5em;
+  height: 1.5em;
+  margin: 0.25em 0 0.25em 0;
+}
+
+.btn_cadastro {
+  padding: 0.5em 1em;
+  font-weight: 700;
+  font-size: 20px;
+  width: 10em;
+  height: 2.7em;
+  margin-top: 1em;
+  margin: 0 auto;
+  font-weight: 900;
+}
+
+.btn {
+  font-family: "Gotham", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  background-color: #f8ce41;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 10em;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn:hover {
+  background-color: #ffffff;
+  border-color: black;
+  transition: 0.5s;
+}
+
+.googleButton {
+  margin-bottom: 1em;
+  margin-right: auto;
+  margin-left: auto;
+}

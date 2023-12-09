@@ -1,0 +1,33 @@
+:root {
+  --bg-color: #3a3a3a;
+  --amarelo-padrao: #e7bf46;
+}
+
+.main {
+  font-family: "Gotham", sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+.title {
+  color: var(--amarelo-padrao);
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--amarelo-padrao);
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 0.5em;
+  margin-bottom: 0.7em;
+}
+
+.cadastreLink {
+  color: #e7bf46;
+  text-decoration: none;
+  font-size: 20px;
+}

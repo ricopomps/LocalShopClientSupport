@@ -1,0 +1,128 @@
+.cartSidebar {
+  width: 300px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: -300px;
+  background-color: #5c5c5c;
+  transition: right 0.3s ease-in-out;
+  box-shadow: -5px 0px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1025;
+  overflow: scroll;
+}
+
+.cartSidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.open {
+  right: 0;
+}
+
+.toggleButton {
+  position: fixed;
+  background-color: #f8ce41;
+  border-radius: 50%;
+  bottom: 20px;
+  right: 20px;
+  padding: 8px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  z-index: 1026;
+  box-shadow: #666 0px 0px 15px 0px;
+}
+.shoppingItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.shoppingItem:hover {
+  box-shadow: #666 0px 0px 15px 0px;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.itemText {
+  margin: 0;
+}
+
+.itemPrice {
+  margin: 0;
+  color: #f8ce41;
+  font-weight: bold;
+  font-size: 18px;
+}
+.itemControls {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.itemControlButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 5px;
+  color: white;
+}
+
+.itemCount {
+  margin: 0 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+.itemDeleteButton {
+  background-color: var(--vermelho);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.totalPrice {
+  padding: 10px;
+  background-color: #5c5c5c;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  font-weight: bold;
+  padding-top: 16px;
+  color: white;
+  font-family: "Gotham", sans-serif;
+  font-size: 20px;
+}
+
+.cartText {
+  color: white;
+  font-family: "Gotham", sans-serif;
+  text-align: center;
+  margin: 15px 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.textoCarrinho {
+  font-family: "Inter", sans-serif;
+  color: white;
+}
+
+.btnSalvar {
+  font-size: 20px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.btnFinalizar {
+  font-size: 20px;
+  color: white;
+  width: 100%;
+  background-color: var(--vermelho);
+}

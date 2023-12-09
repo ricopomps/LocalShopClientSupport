@@ -1,0 +1,144 @@
+.productsPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.productsGrid {
+  width: 100%;
+}
+
+.product {
+  height: 380px;
+  /* min-width: 150px; */
+  transition: box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.product:hover {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.inputFilter {
+  font-family: "Inter", sans-serif;
+  font-size: 26px;
+  font-weight: 300;
+  background-color: #5c5c5c;
+  color: #dddddd;
+  padding: 0.5em;
+  border: none;
+  border-radius: 5px;
+  gap: 0.5em;
+  height: 2em;
+  margin: 0.25em 0 0.25em 0;
+  width: 450px;
+}
+
+.selectFilter {
+  font-family: "Inter", sans-serif;
+  font-size: 26px;
+  font-weight: 300;
+  background-color: #5c5c5c;
+  color: #dddddd;
+  padding: 0.5em;
+  border: none;
+  border-radius: 5px;
+  gap: 0.5em;
+  margin: 0.25em 0 0.25em 0;
+  width: 300px;
+}
+
+.selectFilter:focus {
+  background-color: #5c5c5c;
+  color: #d9d9d9;
+  outline: none;
+}
+
+.selectFilter:invalid {
+  color: #3a3a3a;
+}
+
+.inputFilter:focus {
+  background-color: #5c5c5c;
+  color: #d9d9d9;
+  outline: none;
+}
+
+.filterAlign {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+@media (max-width: 580px) {
+  .filterAlign {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.filterAlign::placeholder,
+.inputFilter::placeholder {
+  color: #dddddd;
+}
+
+.bntFilterGlass {
+  background-color: #5c5c5c;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  cursor: pointer;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  width: 2.4em;
+}
+
+.bntFilterGlass:hover {
+  background-color: #505050;
+  border-color: black;
+  transition: 0.5s;
+}
+
+.bntFilterGlass:active {
+  background-color: #d3ae3e;
+  color: #5c5c5c;
+}
+
+.checkFilter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+.labelInput {
+  font-family: "Inter", sans-serif;
+  font-size: 26px;
+  color: #dddddd;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.title {
+  font-family: "Gotham", sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--amarelo);
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
