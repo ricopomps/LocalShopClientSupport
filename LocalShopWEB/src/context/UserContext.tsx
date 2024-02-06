@@ -5,12 +5,16 @@ import {
   useContext,
   useReducer,
 } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Product } from "../models/product";
 import { User, UserType } from "../models/user";
-import * as UsersApi from "../network/notes_api";
 import ApiService from "../network/api";
-import { useNavigate } from "react-router-dom";
+import ApiServiceShop from "../network/apiShop";
+import ApiServiceStore from "../network/apiStore";
+import ApiServiceUsers from "../network/apiUsers";
+
+import * as UsersApi from "../network/users_api";
 import RoutesEnum from "../utils/routesEnum";
 
 export interface ProductItem {
@@ -195,7 +199,14 @@ const useUserContext = (initialState: StateType) => {
 
   const setAccessToken = useCallback((accessToken: string) => {
     const apiService = ApiService.getInstance();
+    const apiServiceUsers = ApiServiceUsers.getInstance();
+    const apiServiceStore = ApiServiceStore.getInstance();
+    const apiServiceShop = ApiServiceShop.getInstance();
+
     apiService.setAccessToken(accessToken, setAccessToken);
+    apiServiceUsers.setAccessToken(accessToken, setAccessToken);
+    apiServiceStore.setAccessToken(accessToken, setAccessToken);
+    apiServiceShop.setAccessToken(accessToken, setAccessToken);
     dispatch({
       type: REDUCER_ACTION_TYPE.SET_ACCESS_TOKEN,
       payload: accessToken,

@@ -1,7 +1,6 @@
-import { Note } from "../models/note";
 import { User, UserType } from "../models/user";
 import { ProfileForm } from "../pages/ProfilePage";
-import ApiService from "./api";
+import ApiService from "./apiUsers";
 //USER ROUTES
 const apiService = ApiService.getInstance();
 
@@ -87,36 +86,4 @@ export async function unfavoriteStore(storeId: string) {
       storeId,
     });
   return response.data;
-}
-
-//NOTES ROUTES
-export async function fetchNotes(): Promise<Note[]> {
-  const response = await apiService
-    .getApi()
-    .get("/api/notes", { withCredentials: true });
-  return response.data;
-}
-
-export interface NoteInput {
-  title: string;
-  text?: string;
-}
-
-export async function createNote(note: NoteInput): Promise<Note> {
-  const response = await apiService.getApi().post("/api/notes", note);
-  return response.data;
-}
-
-export async function updateNote(
-  noteId: string,
-  note: NoteInput
-): Promise<Note> {
-  const response = await apiService
-    .getApi()
-    .patch(`/api/notes/${noteId}`, note);
-  return response.data;
-}
-
-export async function deleteNote(noteId: string) {
-  await apiService.getApi().delete(`/api/notes/${noteId}`);
 }

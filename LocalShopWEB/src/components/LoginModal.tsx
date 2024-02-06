@@ -1,13 +1,13 @@
-import { useForm } from "react-hook-form";
-import { User } from "../models/user";
-import { LoginCredentials } from "../network/notes_api";
-import * as NotesApi from "../network/notes_api";
-import { Alert, Button, Form, Modal } from "react-bootstrap";
-import TextInputField from "./form/TextInputField";
-import stylesUtils from "../styles/utils.module.css";
 import { useState } from "react";
-import { UnathorizedError } from "../errors/http_errors";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import { useUser } from "../context/UserContext";
+import { UnathorizedError } from "../errors/http_errors";
+import { User } from "../models/user";
+import * as NotesApi from "../network/users_api";
+import { LoginCredentials } from "../network/users_api";
+import stylesUtils from "../styles/utils.module.css";
+import TextInputField from "./form/TextInputField";
 
 interface LoginModalProps {
   onDismiss: () => void;

@@ -1,5 +1,5 @@
 import { Store } from "../models/store";
-import ApiService from "./api";
+import ApiService from "./apiStore";
 
 const baseUrl = "/api/stores";
 const apiService = ApiService.getInstance();

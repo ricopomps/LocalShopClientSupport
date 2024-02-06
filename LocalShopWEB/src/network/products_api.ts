@@ -1,6 +1,6 @@
 import { CellCoordinates } from "../components/Grid";
 import { Product } from "../models/product";
-import ApiService from "./api";
+import ApiService from "./apiStore";
 
 const baseUrl = "/api/products";
 const apiService = ApiService.getInstance();

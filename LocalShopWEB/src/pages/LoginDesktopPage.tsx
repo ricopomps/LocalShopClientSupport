@@ -1,14 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { LoginCredentials } from "../network/notes_api";
-import { Form, Button } from "react-bootstrap";
-import TextInputField from "../components/form/TextInputField";
-import * as NotesApi from "../network/notes_api";
-import { UserType } from "../models/user";
-import styles from "../styles/LoginDesktop.module.css";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import logo from "../assets/logo.svg";
+import TextInputField from "../components/form/TextInputField";
 import { useUser } from "../context/UserContext";
+import { UserType } from "../models/user";
+import * as UsersApi from "../network/users_api";
+import { LoginCredentials } from "../network/users_api";
+import styles from "../styles/LoginDesktop.module.css";
 import RoutesEnum from "../utils/routesEnum";
 
 interface LoginDesktopPageProps {}
@@ -22,7 +22,7 @@ const LoginDesktopPage = ({}: LoginDesktopPageProps) => {
   } = useForm<LoginCredentials>();
   const onSubmit = async (data: LoginCredentials) => {
     try {
-      const user = await NotesApi.login(data, setAccessToken);
+      const user = await UsersApi.login(data, setAccessToken);
       setUser(user);
       if (user.userType === UserType.shopper) {
         navigate(RoutesEnum.SHOPPER);

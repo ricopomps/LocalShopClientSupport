@@ -1,12 +1,12 @@
+import bcrypt from "bcrypt";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import bcrypt from "bcrypt";
-import UserModel, { UserType } from "../models/user";
-import { assertIsDefined } from "../util/assertIsDefined";
-import mongoose from "mongoose";
-import env from "../util/validateEnv";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import UserModel, { UserType } from "../models/user";
 import { NotificationService } from "../service/notificationService";
+import { assertIsDefined } from "../util/assertIsDefined";
+import env from "../util/validateEnv";
 
 const notificationService = new NotificationService();
 

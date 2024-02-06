@@ -1,8 +1,4 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { User, UserType } from "../models/user";
-import { SignUpCredentials } from "../network/notes_api";
-import * as NotesApi from "../network/notes_api";
 import {
   Alert,
   Button,
@@ -12,10 +8,14 @@ import {
   Nav,
   Navbar,
 } from "react-bootstrap";
-import TextInputField from "./form/TextInputField";
-import stylesUtils from "../styles/utils.module.css";
-import { ConflictError } from "../errors/http_errors";
+import { useForm } from "react-hook-form";
 import { useUser } from "../context/UserContext";
+import { ConflictError } from "../errors/http_errors";
+import { User, UserType } from "../models/user";
+import * as NotesApi from "../network/users_api";
+import { SignUpCredentials } from "../network/users_api";
+import stylesUtils from "../styles/utils.module.css";
+import TextInputField from "./form/TextInputField";
 
 interface SignUpModalProps {
   onDismiss: () => void;

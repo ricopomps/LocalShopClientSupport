@@ -1,12 +1,12 @@
 import { Button, Form } from "react-bootstrap";
-import TextInputField from "../components/form/TextInputField";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import styles from "../styles/ProfilePage.module.css";
-import logo from "../assets/logo.svg";
-import { User } from "../models/user";
-import * as UserApi from "../network/notes_api";
 import { toast } from "react-toastify";
+import logo from "../assets/logo.svg";
+import TextInputField from "../components/form/TextInputField";
+import { User } from "../models/user";
+import * as UserApi from "../network/users_api";
+import styles from "../styles/ProfilePage.module.css";
 interface ProfilePageProps {
   user: User;
   updateUser: (user: User) => void;

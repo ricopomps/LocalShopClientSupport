@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import TextInputField from "../components/form/TextInputField";
-import { LoginCredentials } from "../network/notes_api";
+import { LoginCredentials } from "../network/users_api";
 
 const PrivacyPage = () => {
   const {

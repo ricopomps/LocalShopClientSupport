@@ -1,17 +1,17 @@
 import { ReactNode } from "react";
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
+import google from "../assets/google.svg";
 import logo from "../assets/logo.svg";
-import styles from "../styles/SignUpPage.module.css";
-import { SignUpCredentials } from "../network/notes_api";
 import TextInputField from "../components/form/TextInputField";
-import * as NotesApi from "../network/notes_api";
+import { useUser } from "../context/UserContext";
 import { User, UserType } from "../models/user";
 import { googleAuth } from "../network/authApi";
-import google from "../assets/google.svg";
-import { useUser } from "../context/UserContext";
+import * as NotesApi from "../network/users_api";
+import { SignUpCredentials } from "../network/users_api";
+import styles from "../styles/SignUpPage.module.css";
 import RoutesEnum from "../utils/routesEnum";
 
 interface SignUpPageProps {
