@@ -4,11 +4,9 @@ import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import UserModel, { UserType } from "../models/user";
-import { NotificationService } from "../service/notificationService";
+import * as NotificationApi from "../network/api/notificationApi";
 import { assertIsDefined } from "../util/assertIsDefined";
 import env from "../util/validateEnv";
-
-const notificationService = new NotificationService();
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
   try {
@@ -298,7 +296,7 @@ export const updateUser: RequestHandler<
     user.email = email ?? user.email;
     user.image = image ?? user.image;
     await user.save();
-    await notificationService.createNotification(
+    NotificationApi.createNotification(
       userId,
       "Alterações realizadas no perfil"
     );

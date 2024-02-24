@@ -1,5 +1,5 @@
 import { CellCoordinates } from "../components/Grid";
-import ApiService from "./api";
+import ApiService from "./apiMap";
 
 export interface Map {
   items: CellCoordinates[];

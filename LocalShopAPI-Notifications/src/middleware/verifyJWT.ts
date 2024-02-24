@@ -1,13 +1,10 @@
-import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
-import ApiService from "../network/api";
 import env from "../util/validateEnv";
-const apiService = ApiService.getInstance();
+import { RequestHandler } from "express";
 
 export const verifyJWT: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
   const header = authHeader?.toString();
-  console.log("verifyJWT", header);
 
   if (!header?.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -22,7 +19,6 @@ export const verifyJWT: RequestHandler = (req, res, next) => {
     req.userId = (decoded as any)?.UserInfo.userId;
     req.storeId = (decoded as any)?.UserInfo.storeId;
     req.userType = (decoded as any)?.UserInfo.userType;
-    apiService.setAccessToken(token);
     next();
   });
 };

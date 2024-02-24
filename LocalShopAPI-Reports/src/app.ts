@@ -6,7 +6,16 @@ import express, { NextFunction, Request, Response } from "express";
 import session from "express-session";
 import createHttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
+import { verifyJWT } from "./middleware/verifyJWT";
 import authRoutes from "./routes/auth";
+import mapRoutes from "./routes/map";
+import notesRoutes from "./routes/notes";
+import notificationRoutes from "./routes/notification";
+import productsRoutes from "./routes/products";
+import reportsRoutes from "./routes/reports";
+import shoppingListRoutes from "./routes/shoppingList";
+import shoppingListHistoryRoutes from "./routes/shoppingListHistory";
+import storeRoutes from "./routes/stores";
 import usersRoutes from "./routes/users";
 import env from "./util/validateEnv";
 
@@ -49,8 +58,16 @@ app.use(
 
 app.use(cookieParser());
 
+app.use("/api/notes", verifyJWT, notesRoutes);
+app.use("/api/products", verifyJWT, productsRoutes);
+app.use("/api/stores", verifyJWT, storeRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/shoppinglist", verifyJWT, shoppingListRoutes);
+app.use("/api/shoppingListHistory", verifyJWT, shoppingListHistoryRoutes);
+app.use("/api/map", verifyJWT, mapRoutes);
+app.use("/api/notifications", verifyJWT, notificationRoutes);
+app.use("/api/reports", verifyJWT, reportsRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404, "Rota não encontrada"));

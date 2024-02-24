@@ -6,8 +6,8 @@ import express, { NextFunction, Request, Response } from "express";
 import session from "express-session";
 import createHttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
-import authRoutes from "./routes/auth";
-import usersRoutes from "./routes/users";
+import { verifyJWT } from "./middleware/verifyJWT";
+import notificationRoutes from "./routes/notification";
 import env from "./util/validateEnv";
 
 const app = express();
@@ -49,8 +49,7 @@ app.use(
 
 app.use(cookieParser());
 
-app.use("/api/users", usersRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api/notifications", verifyJWT, notificationRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404, "Rota não encontrada"));
