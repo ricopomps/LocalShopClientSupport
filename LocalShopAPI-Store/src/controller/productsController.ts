@@ -196,7 +196,8 @@ export const updateProduct: RequestHandler<
 
     const updatedProduct = await productService.updateProduct(
       productId,
-      productData
+      productData,
+      req.token
     );
 
     res.status(200).json(updatedProduct);

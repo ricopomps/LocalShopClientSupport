@@ -9,6 +9,11 @@ router.post("/signup", UserController.signUp);
 router.post("/login", UserController.login);
 router.post("/logout", verifyJWT, UserController.logout);
 router.post("/favoriteProduct", verifyJWT, UserController.favoriteProduct);
+router.get(
+  "/favoriteProduct/:productId",
+  verifyJWT,
+  UserController.getUsersByFavoriteProduct
+);
 router.post("/favoriteStores", verifyJWT, UserController.favoriteStores);
 router.post("/unFavoriteProduct", verifyJWT, UserController.unFavoriteProduct);
 router.post("/unFavoriteStores", verifyJWT, UserController.unFavoriteStores);

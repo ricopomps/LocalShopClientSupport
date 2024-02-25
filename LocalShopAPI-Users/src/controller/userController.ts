@@ -2,11 +2,14 @@ import bcrypt from "bcrypt";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import UserModel, { UserType } from "../models/user";
 import * as NotificationApi from "../network/api/notificationApi";
+import { UserService } from "../service/userService";
 import { assertIsDefined } from "../util/assertIsDefined";
 import env from "../util/validateEnv";
+
+const userService = new UserService();
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
   try {
@@ -368,6 +371,27 @@ export const unFavoriteStores: RequestHandler = async (req, res, next) => {
     await user.save();
 
     res.sendStatus(200);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUsersByFavoriteProduct: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const authenticatedUserId = req.userId;
+    assertIsDefined(authenticatedUserId);
+
+    const { productId } = req.params;
+
+    const users = await userService.getUsersByFavoriteProduct(
+      new Types.ObjectId(productId)
+    );
+
+    res.status(200).json(users);
   } catch (error) {
     next(error);
   }

@@ -2,13 +2,19 @@ import createHttpError from "http-errors";
 import { ClientSession, Types, startSession } from "mongoose";
 import { ListProductsByUserFilter } from "../controller/productsController";
 import ProductModel, { Product, ProductCategories } from "../models/product";
+import { createNotification } from "../network/api/notificationApi";
+import { getUsersByFavoriteProduct } from "../network/api/usersApi";
 import { IStoreService, StoreService } from "./storeService";
 
 export interface IProductService {
   getProduct(productId: string): Promise<Product>;
   getProducts(productsIds: Types.ObjectId[]): Promise<Product[]>;
   createProduct(product: ProductData): Promise<Product>;
-  updateProduct(productId: string, product: ProductData): Promise<Product>;
+  updateProduct(
+    productId: string,
+    product: ProductData,
+    token: string
+  ): Promise<Product>;
   addStock(
     productId: string,
     stock: number,
@@ -91,7 +97,8 @@ export class ProductService implements IProductService {
 
   async updateProduct(
     productId: string,
-    productData: ProductData
+    productData: ProductData,
+    token: string
   ): Promise<Product> {
     const session = await startSession();
     session.startTransaction();
@@ -173,11 +180,38 @@ export class ProductService implements IProductService {
       const updatedProduct = await existingProduct.save();
       await session.commitTransaction();
       session.endSession();
+      if (productData.sale && updatedProduct.salePercentage) {
+        this.sendSaleNotification(updatedProduct, token);
+      }
+
       return updatedProduct;
     } catch (error) {
       await session.abortTransaction();
       session.endSession();
       throw error;
+    }
+  }
+
+  private async sendSaleNotification(updatedProduct: Product, token?: string) {
+    try {
+      const usersToNotify = await getUsersByFavoriteProduct(
+        updatedProduct._id.toString(),
+        token
+      );
+
+      usersToNotify.forEach((user) =>
+        createNotification(
+          user._id,
+          `O seu produto favoritado '${
+            updatedProduct.name
+          }' entrou em promoção com ${updatedProduct.salePercentage?.toFixed(
+            0
+          )}% de desconto!`,
+          token
+        )
+      );
+    } catch (error) {
+      console.error("Erro ao enviar notificação de promoção: " + error);
     }
   }
 
