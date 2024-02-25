@@ -23,7 +23,8 @@ export interface IProductService {
   removeStock(
     productId: string,
     stock: number,
-    session?: ClientSession
+    session?: ClientSession,
+    token?: string
   ): Promise<Product>;
   listProducts(
     filter: ListProductsByUserFilter,
@@ -171,7 +172,7 @@ export class ProductService implements IProductService {
         if (stockDifference > 0) {
           await this.addStock(productId, stockDifference, session);
         } else if (stockDifference < 0) {
-          await this.removeStock(productId, -stockDifference, session);
+          await this.removeStock(productId, -stockDifference, session, token);
         }
 
         existingProduct.stock = productData.stock;
@@ -241,7 +242,8 @@ export class ProductService implements IProductService {
   async removeStock(
     productId: string,
     stock: number,
-    session?: ClientSession
+    session?: ClientSession,
+    token?: string
   ): Promise<Product> {
     const query = this.productRepository.findById(productId);
 
@@ -264,6 +266,25 @@ export class ProductService implements IProductService {
 
     product.stock -= stock;
     await product.save({ session });
+
+    if (product.stock < 20) {
+      try {
+        const store = await this.storeService.getStore(product.storeId);
+
+        store.users.forEach((user) => {
+          createNotification(
+            user,
+            `O estoque do produto: '${product.name}' está baixo! Apenas ${product.stock} produtos no estoque`,
+            token
+          );
+        });
+      } catch (error) {
+        console.error(
+          "Ocorreu um erro ao enviar notificação de estoque baixo: ",
+          error
+        );
+      }
+    }
 
     return product;
   }
