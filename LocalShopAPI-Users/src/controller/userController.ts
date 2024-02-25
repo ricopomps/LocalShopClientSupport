@@ -298,7 +298,8 @@ export const updateUser: RequestHandler<
     await user.save();
     NotificationApi.createNotification(
       userId,
-      "Alterações realizadas no perfil"
+      "Alterações realizadas no perfil",
+      req.token
     );
     res.sendStatus(200);
   } catch (error) {

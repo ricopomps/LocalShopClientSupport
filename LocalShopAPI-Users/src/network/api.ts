@@ -1,17 +1,16 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 class ApiService {
-  private static apiServiceInstance: ApiService;
-  private api;
+  private api: AxiosInstance;
   private accessToken: string | null;
   private requestInterceptor: number;
   private responseInterceptor: number;
   private setContextAccessToken: ((accessToken: string) => void) | null;
 
-  constructor() {
+  constructor(baseUrl?: string) {
     this.api = axios.create({
       withCredentials: true,
-      baseURL: process.env.API_NOTIFICATIONS_BASE_URL,
+      baseURL: baseUrl,
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -42,7 +41,8 @@ class ApiService {
     delete this.api.defaults.headers.common.Authorization;
   }
 
-  getApi() {
+  getApi(token?: string) {
+    if (token) this.setAccessToken(token);
     return this.api;
   }
 
@@ -82,13 +82,6 @@ class ApiService {
   removeInterceptors() {
     this.api.interceptors.request.eject(this.requestInterceptor);
     this.api.interceptors.response.eject(this.responseInterceptor);
-  }
-
-  static getInstance() {
-    if (!this.apiServiceInstance) {
-      this.apiServiceInstance = new ApiService();
-    }
-    return this.apiServiceInstance;
   }
 }
 

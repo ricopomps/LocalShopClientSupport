@@ -10,38 +10,45 @@ export interface Notification {
 }
 
 const baseUrl = "/api/notifications";
-const apiService = ApiService.getInstance();
+const apiService = new ApiService(process.env.API_NOTIFICATIONS_BASE_URL);
 
 export async function createNotification(
   userId: string | Types.ObjectId,
-  message: string
+  message: string,
+  token?: string
 ): Promise<void> {
-  const { data } = await apiService.getApi().post(baseUrl, { userId, message });
+  const { data } = await apiService
+    .getApi(token)
+    .post(baseUrl, { userId, message });
   return data;
 }
 
-export async function getNotification(): Promise<Notification[]> {
-  const { data } = await apiService.getApi().get(`${baseUrl}`);
+export async function getNotification(token?: string): Promise<Notification[]> {
+  const { data } = await apiService.getApi(token).get(`${baseUrl}`);
   return data;
 }
 
 export async function deleteNotification(
-  notificationId: string
+  notificationId: string,
+  token?: string
 ): Promise<void> {
   const { data } = await apiService
-    .getApi()
+    .getApi(token)
     .delete(`${baseUrl}/${notificationId}`);
   return data;
 }
 
-export async function readNotification(notificationId: string): Promise<void> {
-  await apiService.getApi().patch(`${baseUrl}/read/${notificationId}`);
+export async function readNotification(
+  notificationId: string,
+  token?: string
+): Promise<void> {
+  await apiService.getApi(token).patch(`${baseUrl}/read/${notificationId}`);
 }
 
-export async function readAllNotifications(): Promise<void> {
-  await apiService.getApi().patch(baseUrl);
+export async function readAllNotifications(token?: string): Promise<void> {
+  await apiService.getApi(token).patch(baseUrl);
 }
 
-export async function removeAllNotifications(): Promise<void> {
-  await apiService.getApi().delete(baseUrl);
+export async function removeAllNotifications(token?: string): Promise<void> {
+  await apiService.getApi(token).delete(baseUrl);
 }
