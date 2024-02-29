@@ -1,6 +1,6 @@
+import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import env from "../util/validateEnv";
-import { RequestHandler } from "express";
 
 export const verifyJWT: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -19,6 +19,7 @@ export const verifyJWT: RequestHandler = (req, res, next) => {
     req.userId = (decoded as any)?.UserInfo.userId;
     req.storeId = (decoded as any)?.UserInfo.storeId;
     req.userType = (decoded as any)?.UserInfo.userType;
+    req.token = token;
     next();
   });
 };

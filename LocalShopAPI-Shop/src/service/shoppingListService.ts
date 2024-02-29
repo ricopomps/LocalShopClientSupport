@@ -7,6 +7,7 @@ import ShoppingListModel, {
 } from "../models/shoppingList";
 import { Store } from "../models/store";
 import { User } from "../models/user";
+import { getProductsList, removeStock } from "../network/api/productsApi";
 import {
   IShoppingListHistoryService,
   ShoppingListHistoryService,
@@ -26,7 +27,8 @@ export interface IShoppingListService {
   createOrUpdateShoppingList(
     creatorId: Types.ObjectId,
     storeId: Types.ObjectId,
-    products: ShoppingListItem[]
+    products: ShoppingListItem[],
+    token: string
   ): Promise<ShoppingList>;
 
   getShoppingListsByUser(
@@ -37,10 +39,14 @@ export interface IShoppingListService {
   finishShoppingList(
     creatorId: Types.ObjectId,
     storeId: Types.ObjectId,
-    products: ShoppingListItem[]
+    products: ShoppingListItem[],
+    token: string
   ): Promise<void>;
 
-  copyHistoryList(shoppingListHistoryId: Types.ObjectId): Promise<ShoppingList>;
+  copyHistoryList(
+    shoppingListHistoryId: Types.ObjectId,
+    token: string
+  ): Promise<ShoppingList>;
 }
 
 interface GetShoppingListsByUserFilter {
@@ -60,7 +66,8 @@ export class ShoppingListService implements IShoppingListService {
   async createOrUpdateShoppingList(
     creatorId: Types.ObjectId,
     storeId: Types.ObjectId,
-    products: ShoppingListItem[]
+    products: ShoppingListItem[],
+    token: string
   ): Promise<ShoppingList> {
     let shoppingList = await this.shoppingListRepository
       .findOne({
@@ -68,6 +75,26 @@ export class ShoppingListService implements IShoppingListService {
         storeId,
       })
       .exec();
+
+    const productsInStock = await getProductsList(
+      products.map((item) => item.product),
+      token
+    );
+
+    products.forEach((product) => {
+      const productInStock = productsInStock.find(
+        (stockProduct) => stockProduct._id === product.product
+      );
+      if (productInStock) {
+        if (productInStock.stock < product.quantity)
+          throw createHttpError(
+            400,
+            `O produto '${productInStock.name}' não está mais em estoque (Estoque disponível: ${productInStock.stock})`
+          );
+      } else {
+        throw createHttpError(404, `O produto não está mais disponivel`);
+      }
+    });
 
     if (shoppingList) {
       shoppingList.products = products;
@@ -169,12 +196,41 @@ export class ShoppingListService implements IShoppingListService {
   async finishShoppingList(
     creatorId: Types.ObjectId,
     storeId: Types.ObjectId,
-    products: ShoppingListItem[]
+    products: ShoppingListItem[],
+    token: string
   ) {
     const session = await startSession();
     session.startTransaction();
     try {
-      await this.createOrUpdateShoppingList(creatorId, storeId, products);
+      await this.createOrUpdateShoppingList(
+        creatorId,
+        storeId,
+        products,
+        token
+      );
+
+      const productsInStock = await getProductsList(
+        products.map((item) => item.product),
+        token
+      );
+
+      const removeStockPromises = products.map((product) => {
+        const productInStock = productsInStock.find(
+          (stockProduct) => stockProduct._id === product.product
+        );
+        if (productInStock) {
+          if (productInStock.stock < product.quantity)
+            throw createHttpError(
+              400,
+              `O produto '${productInStock.name}' não está mais em estoque (Estoque disponível: ${productInStock.stock})`
+            );
+          return removeStock(productInStock._id, product.quantity, token);
+        } else {
+          throw createHttpError(404, `O produto não está mais disponivel`);
+        }
+      });
+
+      await Promise.all(removeStockPromises);
 
       const shoppingList = await this.getShoppingListsByUser(
         creatorId,
@@ -202,7 +258,8 @@ export class ShoppingListService implements IShoppingListService {
   }
 
   async copyHistoryList(
-    shoppingListHistoryId: Types.ObjectId
+    shoppingListHistoryId: Types.ObjectId,
+    token: string
   ): Promise<ShoppingList> {
     const history =
       await this.shoppingListHistoryService.getShoppingListHistory(
@@ -220,7 +277,8 @@ export class ShoppingListService implements IShoppingListService {
     const shoppingList = await this.createOrUpdateShoppingList(
       history.creatorId,
       history.storeId,
-      productsItem
+      productsItem,
+      token
     );
 
     return shoppingList;

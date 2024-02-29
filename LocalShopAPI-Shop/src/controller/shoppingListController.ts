@@ -37,7 +37,8 @@ export const createShoppingList: RequestHandler<
     const shoppingList = await shoppingListService.createOrUpdateShoppingList(
       creatorId,
       storeId,
-      products
+      products,
+      req.token
     );
 
     res.status(200).json(shoppingList);
@@ -107,7 +108,12 @@ export const finishShoppingList: RequestHandler<
 
     if (!storeId) throw createHttpError(400, "Loja inválida");
 
-    await shoppingListService.finishShoppingList(creatorId, storeId, products);
+    await shoppingListService.finishShoppingList(
+      creatorId,
+      storeId,
+      products,
+      req.token
+    );
 
     res.sendStatus(201);
   } catch (error) {
@@ -128,7 +134,7 @@ export const copyHistoryList: RequestHandler<
   try {
     const { historyId } = req.params;
     assertIsDefined(historyId);
-    await shoppingListService.copyHistoryList(historyId);
+    await shoppingListService.copyHistoryList(historyId, req.token);
     res.sendStatus(200);
   } catch (error) {
     next(error);

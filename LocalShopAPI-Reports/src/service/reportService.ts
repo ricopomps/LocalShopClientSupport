@@ -1,10 +1,10 @@
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { Types } from "mongoose";
 import { Product } from "../models/product";
 import ShoppingListHistoryModel, {
   ShoppingListHistory,
 } from "../models/shoppingListHistory";
-import { ptBR } from "date-fns/locale";
-import { Types } from "mongoose";
 
 export interface IReportService {
   getSoldProductsReport(
@@ -12,12 +12,16 @@ export interface IReportService {
     endDate: Date,
     storeId: Types.ObjectId
   ): Promise<MultipleReportData[]>;
-  getIncomeReport(startDate: Date, endDate: Date, storeId: Types.ObjectId): Promise<SingleReportData[]>;
+  getIncomeReport(
+    startDate: Date,
+    endDate: Date,
+    storeId: Types.ObjectId
+  ): Promise<SingleReportData[]>;
   getIncomeByProducts(
     startDate: Date,
     endDate: Date,
     storeId: Types.ObjectId
-  ) : Promise<MultipleReportData[]>
+  ): Promise<MultipleReportData[]>;
 }
 
 interface SingleReportData {
@@ -43,14 +47,13 @@ export class ReportService implements IReportService {
   }
 
   private createMonthKey(creationDate: Date) {
-    const monthKey = `${format(
-      creationDate,
-      "MMM", { locale: ptBR }
-    )}/${creationDate.getFullYear()}`;
+    const monthKey = `${format(creationDate, "MMM", {
+      locale: ptBR,
+    })}/${creationDate.getFullYear()}`;
     return monthKey;
   }
 
-async getSoldProductsReport(
+  async getSoldProductsReport(
     startDate: Date,
     endDate: Date,
     storeId: Types.ObjectId
@@ -65,7 +68,6 @@ async getSoldProductsReport(
           },
         })
         .exec();
-        
 
     const dataMonthSeparated = new Map<string, ShoppingListHistory[]>();
     rawData.forEach((history: ShoppingListHistory) => {
@@ -117,7 +119,6 @@ async getSoldProductsReport(
     return reportData;
   }
 
-
   async getIncomeReport(
     startDate: Date,
     endDate: Date,
@@ -161,8 +162,6 @@ async getSoldProductsReport(
     return reportData;
   }
 
-
-
   async getIncomeByProducts(
     startDate: Date,
     endDate: Date,
@@ -179,7 +178,7 @@ async getSoldProductsReport(
         })
         .exec();
 
-        const dataMonthSeparated = new Map<string, ShoppingListHistory[]>();
+    const dataMonthSeparated = new Map<string, ShoppingListHistory[]>();
     rawData.forEach((history: ShoppingListHistory) => {
       const createdAt = new Date(history.createdAt);
 

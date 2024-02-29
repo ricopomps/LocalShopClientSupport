@@ -354,3 +354,51 @@ export const getProductList: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+interface GetProductsListBody {
+  productsIds: Types.ObjectId[];
+}
+
+export const getProductsList: RequestHandler<
+  unknown,
+  unknown,
+  GetProductsListBody,
+  unknown
+> = async (req, res, next) => {
+  try {
+    const { productsIds } = req.body;
+
+    const products = await productService.getProducts(productsIds);
+
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+interface RemoveStockBody {
+  productId: Types.ObjectId;
+  quantity: number;
+}
+
+export const removeStock: RequestHandler<
+  unknown,
+  unknown,
+  RemoveStockBody,
+  unknown
+> = async (req, res, next) => {
+  try {
+    const { productId, quantity } = req.body;
+
+    const products = await productService.removeStock(
+      productId.toString(),
+      quantity,
+      undefined,
+      req.token
+    );
+
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};

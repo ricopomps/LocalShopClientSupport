@@ -1,23 +1,18 @@
+import createHttpError from "http-errors";
 import { Types, startSession } from "mongoose";
+import { Product } from "../models/product";
 import ShoppingListModel, {
   ShoppingList,
   ShoppingListItem,
 } from "../models/shoppingList";
-import { IProductService, ProductService } from "./productService";
-import createHttpError from "http-errors";
 import { Store } from "../models/store";
 import { User } from "../models/user";
-import { Product } from "../models/product";
+import { CellCoordinates, IPathService, PathService } from "./pathService";
+import { IProductService, ProductService } from "./productService";
 import {
   IShoppingListHistoryService,
   ShoppingListHistoryService,
 } from "./shoppingListHistoryService";
-import {
-  CellCoordinates,
-  IPathService,
-  Path,
-  PathService,
-} from "./pathService";
 
 export type PopulatedShoppingList = {
   store: Store;

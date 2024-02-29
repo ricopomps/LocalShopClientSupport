@@ -4,5 +4,6 @@ declare namespace Express {
     userId: import("mongoose").Types.ObjectId;
     storeId: import("mongoose").Types.ObjectId;
     userType: string;
+    token: string;
   }
 }
