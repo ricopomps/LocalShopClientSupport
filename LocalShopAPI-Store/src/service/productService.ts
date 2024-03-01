@@ -3,7 +3,10 @@ import { ClientSession, Types, startSession } from "mongoose";
 import { ListProductsByUserFilter } from "../controller/productsController";
 import ProductModel, { Product, ProductCategories } from "../models/product";
 import { createNotification } from "../network/api/notificationApi";
-import { getUsersByFavoriteProduct } from "../network/api/usersApi";
+import {
+  getUserFavoriteProducts,
+  getUsersByFavoriteProduct,
+} from "../network/api/usersApi";
 import { IStoreService, StoreService } from "./storeService";
 
 export interface IProductService {
@@ -29,6 +32,7 @@ export interface IProductService {
   listProducts(
     filter: ListProductsByUserFilter,
     userId: Types.ObjectId,
+    token: string,
     favorite?: boolean,
     sortOption?: ProductSort
   ): Promise<Product[]>;
@@ -323,9 +327,15 @@ export class ProductService implements IProductService {
   async listProducts(
     filter: ListProductsByUserFilter,
     userId: Types.ObjectId,
+    token: string,
     favorite?: boolean | undefined,
     sortOption?: ProductSort
   ): Promise<Product[]> {
+    if (favorite) {
+      const favoriteStores = await getUserFavoriteProducts(token);
+      filter._id = { $in: favoriteStores };
+    }
+
     const products = await this.productRepository
       .find(filter)
       .sort(this.getSort(sortOption))

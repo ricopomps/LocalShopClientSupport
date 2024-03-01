@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { User, UserType } from "../../models/user";
 import ApiService from "../api";
 //USER ROUTES
@@ -89,5 +90,23 @@ export async function getUsersByFavoriteProduct(
   const response = await apiService
     .getApi(token)
     .get(`/api/users/favoriteProduct/${productId}`);
+  return response.data;
+}
+
+export async function getUserFavoriteStores(
+  token?: string
+): Promise<Types.ObjectId[]> {
+  const response = await apiService
+    .getApi(token)
+    .get(`/api/users/favoriteStores`);
+  return response.data;
+}
+
+export async function getUserFavoriteProducts(
+  token?: string
+): Promise<Types.ObjectId[]> {
+  const response = await apiService
+    .getApi(token)
+    .get(`/api/users/favoriteProducts`);
   return response.data;
 }

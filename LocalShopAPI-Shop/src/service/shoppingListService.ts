@@ -7,7 +7,12 @@ import ShoppingListModel, {
 } from "../models/shoppingList";
 import { Store } from "../models/store";
 import { User } from "../models/user";
-import { getProductsList, removeStock } from "../network/api/productsApi";
+import { calculatePath } from "../network/api/mapApi";
+import {
+  CellCoordinates,
+  getProductsList,
+  removeStock,
+} from "../network/api/productsApi";
 import {
   IShoppingListHistoryService,
   ShoppingListHistoryService,
@@ -47,6 +52,13 @@ export interface IShoppingListService {
     shoppingListHistoryId: Types.ObjectId,
     token: string
   ): Promise<ShoppingList>;
+
+  getShoppingListShortestPath(
+    creatorId: Types.ObjectId,
+    storeId: Types.ObjectId,
+    products: ShoppingListItem[],
+    token: string
+  ): Promise<CellCoordinates[][]>;
 }
 
 interface GetShoppingListsByUserFilter {
@@ -83,7 +95,8 @@ export class ShoppingListService implements IShoppingListService {
 
     products.forEach((product) => {
       const productInStock = productsInStock.find(
-        (stockProduct) => stockProduct._id === product.product
+        (stockProduct) =>
+          stockProduct._id.toString() === product.product.toString()
       );
       if (productInStock) {
         if (productInStock.stock < product.quantity)
@@ -216,7 +229,8 @@ export class ShoppingListService implements IShoppingListService {
 
       const removeStockPromises = products.map((product) => {
         const productInStock = productsInStock.find(
-          (stockProduct) => stockProduct._id === product.product
+          (stockProduct) =>
+            stockProduct._id.toString() === product.product.toString()
         );
         if (productInStock) {
           if (productInStock.stock < product.quantity)
@@ -282,5 +296,31 @@ export class ShoppingListService implements IShoppingListService {
     );
 
     return shoppingList;
+  }
+
+  async getShoppingListShortestPath(
+    creatorId: Types.ObjectId,
+    storeId: Types.ObjectId,
+    products: ShoppingListItem[],
+    token: string
+  ): Promise<CellCoordinates[][]> {
+    await this.createOrUpdateShoppingList(creatorId, storeId, products, token);
+    const shoppingList = await this.getShoppingListsByUser(creatorId, storeId);
+
+    shoppingList?.products.forEach((item) => {
+      if (!item.product.location)
+        throw createHttpError(
+          404,
+          `O produto ${item.product.name} não possui localização cadastrada, favor remova ele da lista.`
+        );
+    });
+
+    if (!shoppingList)
+      throw createHttpError(
+        404,
+        "Não foi possível encontrar a lista de compras"
+      );
+    const paths = await calculatePath(storeId.toString(), shoppingList, token);
+    return paths;
   }
 }

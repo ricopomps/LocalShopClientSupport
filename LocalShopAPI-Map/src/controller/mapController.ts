@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import MapModel, { MapCellTypes } from "../models/map";
+import { PathService } from "../services/pathService";
 import { assertIsDefined } from "../util/assertIsDefined";
 
 interface CreateUpdateMapBody {
@@ -54,6 +55,19 @@ export const getMap: RequestHandler<
     assertIsDefined(storeId);
 
     const map = await MapModel.findOne({ storeId }).exec();
+
+    res.status(200).json(map);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const calculatePath: RequestHandler = async (req, res, next) => {
+  try {
+    const { storeId, shoppingList } = req.body;
+    assertIsDefined(storeId);
+    const pathService = new PathService();
+    const map = await pathService.calculatePath(storeId, shoppingList);
 
     res.status(200).json(map);
   } catch (error) {

@@ -396,3 +396,35 @@ export const getUsersByFavoriteProduct: RequestHandler = async (
     next(error);
   }
 };
+
+export const getUserFavoriteStores: RequestHandler = async (req, res, next) => {
+  try {
+    const authenticatedUserId = req.userId;
+    assertIsDefined(authenticatedUserId);
+
+    const storesIds = await userService.getFavoriteStores(authenticatedUserId);
+
+    res.status(200).json(storesIds);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserFavoriteProducts: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const authenticatedUserId = req.userId;
+    assertIsDefined(authenticatedUserId);
+
+    const storesIds = await userService.getFavoriteProducts(
+      authenticatedUserId
+    );
+
+    res.status(200).json(storesIds);
+  } catch (error) {
+    next(error);
+  }
+};

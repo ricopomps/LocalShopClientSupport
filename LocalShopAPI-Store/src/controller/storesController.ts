@@ -297,6 +297,7 @@ export const listStores: RequestHandler<
     const stores = await storeService.listStores(
       filter,
       req.userId,
+      req.token,
       jsonFavorite
     );
     res.status(200).json(stores);

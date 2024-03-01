@@ -333,6 +333,7 @@ export const listProducts: RequestHandler<
     const products = await productService.listProducts(
       filter,
       req.userId,
+      req.token,
       jsonFavorite,
       sort
     );

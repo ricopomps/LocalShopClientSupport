@@ -10,7 +10,9 @@ import { toast } from "react-toastify";
 import { Product } from "../models/product";
 import { User, UserType } from "../models/user";
 import ApiService from "../network/api";
+import ApiServiceMap from "../network/apiMap";
 import ApiServiceNotification from "../network/apiNotification";
+import ApiServiceReports from "../network/apiReports";
 import ApiServiceShop from "../network/apiShop";
 import ApiServiceStore from "../network/apiStore";
 import ApiServiceUsers from "../network/apiUsers";
@@ -203,13 +205,17 @@ const useUserContext = (initialState: StateType) => {
     const apiServiceUsers = ApiServiceUsers.getInstance();
     const apiServiceStore = ApiServiceStore.getInstance();
     const apiServiceShop = ApiServiceShop.getInstance();
+    const apiServiceMap = ApiServiceMap.getInstance();
     const apiServiceNotification = ApiServiceNotification.getInstance();
+    const apiServiceReports = ApiServiceReports.getInstance();
 
     apiService.setAccessToken(accessToken, setAccessToken);
     apiServiceUsers.setAccessToken(accessToken, setAccessToken);
     apiServiceStore.setAccessToken(accessToken, setAccessToken);
     apiServiceShop.setAccessToken(accessToken, setAccessToken);
     apiServiceNotification.setAccessToken(accessToken, setAccessToken);
+    apiServiceMap.setAccessToken(accessToken, setAccessToken);
+    apiServiceReports.setAccessToken(accessToken, setAccessToken);
     dispatch({
       type: REDUCER_ACTION_TYPE.SET_ACCESS_TOKEN,
       payload: accessToken,
