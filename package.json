@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"cd LocalShopWEB && npm run dev\" \"cd LocalShopAPI-Map && npm run dev\" \"cd LocalShopAPI-Notifications && npm run dev\" \"cd LocalShopAPI-Reports && npm run dev\" \"cd LocalShopAPI-Shop && npm run dev\" \"cd LocalShopAPI-Store && npm run dev\" \"cd LocalShopAPI-Users && npm run dev\" ",
+    "dev": "concurrently \"cd LocalShopWEB && npm run dev\" \"cd LocalShopAPI-Map && npm run dev\" \"cd LocalShopAPI-Notifications && npm run dev\" \"cd LocalShopAPI-Reports && npm run dev\" \"cd LocalShopAPI-Shop && npm run dev\" \"cd LocalShopAPI-Store && npm run dev\" \"cd LocalShopAPI-Users && npm run dev\" \"cd LocalShopAPI-History && npm run dev\" ",
     "update": "concurrently \"cd LocalShopWEB && npm i\" \"cd LocalShopAPI-Map && npm i\" \"cd LocalShopAPI-Notifications && npm i\" \"cd LocalShopAPI-Reports && npm i\" \"cd LocalShopAPI-Shop && npm i\" \"cd LocalShopAPI-Store && npm i\" \"cd LocalShopAPI-Users && npm i\" ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

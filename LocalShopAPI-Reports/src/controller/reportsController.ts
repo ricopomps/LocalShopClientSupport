@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import { assertIsDefined } from "../util/assertIsDefined";
 import { ReportService } from "../service/reportService";
+import { assertIsDefined } from "../util/assertIsDefined";
 
 const reportService = new ReportService();
 export const getIncomeReport: RequestHandler<
@@ -17,7 +17,7 @@ export const getIncomeReport: RequestHandler<
     const data = await reportService.getIncomeReport(
       startDate,
       endDate,
-      storeId
+      req.token
     );
     res.status(200).json(data);
   } catch (error) {
@@ -36,7 +36,7 @@ export const getSoldProductsReport: RequestHandler<
     assertIsDefined(storeId);
 
     const { startDate, endDate } = req.query;
-    await reportService.getSoldProductsReport(startDate, endDate, storeId);
+    await reportService.getSoldProductsReport(startDate, endDate, req.token);
 
     res.sendStatus(200);
   } catch (error) {
@@ -64,7 +64,7 @@ export const getProductsSoldReport: RequestHandler<
     const data = await reportService.getSoldProductsReport(
       startDate,
       endDate,
-      storeId
+      req.token
     );
 
     res.status(200).json(data);
@@ -88,7 +88,7 @@ export const getIncomeByProducts: RequestHandler<
     const data = await reportService.getIncomeByProducts(
       startDate,
       endDate,
-      storeId
+      req.token
     );
 
     res.status(200).json(data);

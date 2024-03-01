@@ -1,26 +1,24 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Types } from "mongoose";
 import { Product } from "../models/product";
-import ShoppingListHistoryModel, {
-  ShoppingListHistory,
-} from "../models/shoppingListHistory";
+import { ShoppingListHistory } from "../models/shoppingListHistory";
+import { getStoreHistoric } from "../network/api/historicApi";
 
 export interface IReportService {
   getSoldProductsReport(
     startDate: Date,
     endDate: Date,
-    storeId: Types.ObjectId
+    token: string
   ): Promise<MultipleReportData[]>;
   getIncomeReport(
     startDate: Date,
     endDate: Date,
-    storeId: Types.ObjectId
+    token: string
   ): Promise<SingleReportData[]>;
   getIncomeByProducts(
     startDate: Date,
     endDate: Date,
-    storeId: Types.ObjectId
+    token: string
   ): Promise<MultipleReportData[]>;
 }
 
@@ -40,13 +38,10 @@ interface SingularValue {
 }
 
 export class ReportService implements IReportService {
-  private shoppingListHistoryRepository;
-
-  constructor() {
-    this.shoppingListHistoryRepository = ShoppingListHistoryModel;
-  }
-
-  private createMonthKey(creationDate: Date) {
+  private createMonthKey(creationDate: Date | string) {
+    if (!(creationDate instanceof Date)) {
+      creationDate = parseISO(creationDate);
+    }
     const monthKey = `${format(creationDate, "MMM", {
       locale: ptBR,
     })}/${creationDate.getFullYear()}`;
@@ -56,18 +51,13 @@ export class ReportService implements IReportService {
   async getSoldProductsReport(
     startDate: Date,
     endDate: Date,
-    storeId: Types.ObjectId
+    token: string
   ): Promise<MultipleReportData[]> {
-    const rawData: ShoppingListHistory[] =
-      await this.shoppingListHistoryRepository
-        .find({
-          storeId,
-          createdAt: {
-            $gte: startDate,
-            $lte: endDate,
-          },
-        })
-        .exec();
+    const rawData: ShoppingListHistory[] = await getStoreHistoric(
+      startDate,
+      endDate,
+      token
+    );
 
     const dataMonthSeparated = new Map<string, ShoppingListHistory[]>();
     rawData.forEach((history: ShoppingListHistory) => {
@@ -122,18 +112,13 @@ export class ReportService implements IReportService {
   async getIncomeReport(
     startDate: Date,
     endDate: Date,
-    storeId: Types.ObjectId
+    token: string
   ): Promise<SingleReportData[]> {
-    const rawData: ShoppingListHistory[] =
-      await this.shoppingListHistoryRepository
-        .find({
-          storeId,
-          createdAt: {
-            $gte: startDate,
-            $lte: endDate,
-          },
-        })
-        .exec();
+    const rawData: ShoppingListHistory[] = await getStoreHistoric(
+      startDate,
+      endDate,
+      token
+    );
 
     const dataMonthSeparated = new Map<string, number>();
 
@@ -165,18 +150,13 @@ export class ReportService implements IReportService {
   async getIncomeByProducts(
     startDate: Date,
     endDate: Date,
-    storeId: Types.ObjectId
+    token: string
   ): Promise<MultipleReportData[]> {
-    const rawData: ShoppingListHistory[] =
-      await this.shoppingListHistoryRepository
-        .find({
-          storeId,
-          createdAt: {
-            $gte: startDate,
-            $lte: endDate,
-          },
-        })
-        .exec();
+    const rawData: ShoppingListHistory[] = await getStoreHistoric(
+      startDate,
+      endDate,
+      token
+    );
 
     const dataMonthSeparated = new Map<string, ShoppingListHistory[]>();
     rawData.forEach((history: ShoppingListHistory) => {
