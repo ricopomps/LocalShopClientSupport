@@ -34,16 +34,19 @@ interface SignUpBody {
 }
 
 function validateCPF(cpf: string) {
-  cpf = cpf.replace(/[^\d]/g, "");
+  cpf = cpf.replace(/[^\d]/g, ""); // Remove non-numeric characters
+  //return true;
 
   if (cpf.length !== 11) {
     throw createHttpError(400, "Tamanho do CPF inválido!");
   }
 
   if (/^(\d)\1+$/.test(cpf)) {
-    return false;
+    console.log("CPF inválido: todos os dígitos são iguais.");
+    return false; // CPF com todos dígitos iguais (ex: 11111111111) é FALSO
   }
 
+  //Cálculo do primeiro dígito verificador
   let sum = 0;
   for (let i = 0; i < 9; i++) {
     sum += parseInt(cpf.charAt(i)) * (10 - i);
@@ -51,15 +54,16 @@ function validateCPF(cpf: string) {
   let mod = sum % 11;
   const firstDigit = mod < 2 ? 0 : 11 - mod;
 
+  //Cálculo do segundo dígito verificador
   sum = 0;
-
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 10; i++) {
     sum += parseInt(cpf.charAt(i)) * (11 - i);
   }
-
   mod = sum % 11;
   const secondDigit = mod < 2 ? 0 : 11 - mod;
 
+
+  // Verifica se os dígitos verificadores estão corretos
   if (
     parseInt(cpf.charAt(9)) !== firstDigit ||
     parseInt(cpf.charAt(10)) !== secondDigit
