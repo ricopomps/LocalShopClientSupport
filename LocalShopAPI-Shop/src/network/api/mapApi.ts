@@ -6,7 +6,7 @@ export interface Map {
 }
 
 const baseUrl = "/api/map";
-const apiService = new ApiService(process.env.API_MAP_BASE_URL);
+const apiService = new ApiService(process.env.API_GATEWAY_BASE_URL);
 
 export async function saveMap(map: Map, token: string): Promise<void> {
   const { data } = await apiService.getApi(token).post(baseUrl, map);

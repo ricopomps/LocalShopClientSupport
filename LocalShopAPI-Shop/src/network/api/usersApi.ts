@@ -1,7 +1,7 @@
 import { User, UserType } from "../../models/user";
 import ApiService from "../api";
 //USER ROUTES
-const apiService = new ApiService(process.env.API_USERS_BASE_URL);
+const apiService = new ApiService(process.env.API_GATEWAY_BASE_URL);
 
 export async function getLoggedInUser(): Promise<User> {
   const response = await apiService.getApi().get("/api/users");

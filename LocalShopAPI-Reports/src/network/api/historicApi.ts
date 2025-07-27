@@ -2,7 +2,7 @@ import { ShoppingListHistory } from "../../models/shoppingListHistory";
 import ApiService from "../api";
 
 const baseUrl = "/api/shoppingListHistory";
-const apiService = new ApiService(process.env.API_HISTORY_BASE_URL);
+const apiService = new ApiService(process.env.API_GATEWAY_BASE_URL);
 
 export const getHistorics = async (
   token: string

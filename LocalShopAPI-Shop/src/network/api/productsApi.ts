@@ -3,7 +3,7 @@ import { Product } from "../../models/product";
 import ApiService from "../api";
 
 const baseUrl = "/api/products";
-const apiService = new ApiService(process.env.API_STORE_BASE_URL);
+const apiService = new ApiService(process.env.API_GATEWAY_BASE_URL);
 
 export async function fetchProducts(
   storeId: string,

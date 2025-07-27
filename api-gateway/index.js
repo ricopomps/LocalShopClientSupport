@@ -30,6 +30,14 @@ app.use(
 );
 
 app.use(
+  "/api/shoppingList",
+  createProxyMiddleware({
+    target: process.env.API_SHOP_BASE_URL,
+    changeOrigin: true,
+  })
+);
+
+app.use(
   "/api/map",
   createProxyMiddleware({
     target: process.env.API_MAP_BASE_URL,

@@ -10,7 +10,7 @@ export interface Notification {
 }
 
 const baseUrl = "/api/notifications";
-const apiService = new ApiService(process.env.API_NOTIFICATIONS_BASE_URL);
+const apiService = new ApiService(process.env.API_GATEWAY_BASE_URL);
 
 export async function createNotification(
   userId: string | Types.ObjectId,
