@@ -11,7 +11,7 @@ class ApiService {
   constructor() {
     this.api = axios.create({
       withCredentials: true,
-      baseURL: process.env.REACT_APP_API_NOTIFICATION_BASE_URL,
+      baseURL: process.env.REACT_APP_API_GATEWAY_BASE_URL,
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
