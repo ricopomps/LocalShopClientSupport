@@ -3,6 +3,7 @@ import mongoose, { ObjectId, Types } from "mongoose";
 import createHttpError from "http-errors";
 import ShoppingListHistoryModel from "../models/shoppingListHistory";
 import { Product } from "../models/product";
+import { encryptResponse } from "../middleware/encryptResponse";
 
 interface CreateShoppingListHistoryBody {
   storeId?: ObjectId;
@@ -112,7 +113,7 @@ export const getShoppingListsHistoryByUser: RequestHandler<
       },
     ]).exec();
 
-    res.status(200).json(shoppingListsHistory);
+    res.status(200).json(encryptResponse(shoppingListsHistory));
   } catch (error) {
     next(error);
   }
@@ -163,7 +164,7 @@ export const getAllShoppingListsHistoryByUser: RequestHandler<
       },
     ]).exec();
 
-    res.status(200).json(shoppingListsHistory);
+    res.status(200).json(encryptResponse(shoppingListsHistory));
   } catch (error) {
     next(error);
   }
@@ -229,7 +230,7 @@ export const getShoppingListsHistory: RequestHandler<
       },
     ]).exec();
 
-    res.status(200).json(shoppingListsHistory[0]);
+    res.status(200).json(encryptResponse(shoppingListsHistory[0]));
   } catch (error) {
     next(error);
   }

@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { NotificationService } from "../service/notificationService";
 import { assertIsDefined } from "../util/assertIsDefined";
+import { encryptResponse } from "../middleware/encryptResponse";
 
 const notificationService = new NotificationService();
 
@@ -19,7 +20,7 @@ export const getNotifications: RequestHandler = async (req, res, next) => {
     const notifications = await notificationService.getNotifications(
       req.userId
     );
-    res.status(200).json(notifications);
+    res.status(200).json(encryptResponse(notifications));
   } catch (error) {
     next(error);
   }

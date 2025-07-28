@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { ReportService } from "../service/reportService";
 import { assertIsDefined } from "../util/assertIsDefined";
+import { encryptResponse } from "../middleware/encryptResponse";
 
 const reportService = new ReportService();
 export const getIncomeReport: RequestHandler<
@@ -19,7 +20,7 @@ export const getIncomeReport: RequestHandler<
       endDate,
       req.token
     );
-    res.status(200).json(data);
+    res.status(200).json(encryptResponse(data));
   } catch (error) {
     next(error);
   }
@@ -67,7 +68,7 @@ export const getProductsSoldReport: RequestHandler<
       req.token
     );
 
-    res.status(200).json(data);
+    res.status(200).json(encryptResponse(data));
   } catch (error) {
     next(error);
   }
@@ -91,7 +92,7 @@ export const getIncomeByProducts: RequestHandler<
       req.token
     );
 
-    res.status(200).json(data);
+    res.status(200).json(encryptResponse(data));
   } catch (error) {
     next(error);
   }

@@ -4,6 +4,7 @@ import mongoose, { Types } from "mongoose";
 import { ShoppingListItem } from "../models/shoppingList";
 import { ShoppingListService } from "../service/shoppingListService";
 import { assertIsDefined } from "../util/assertIsDefined";
+import { encryptResponse } from "../middleware/encryptResponse";
 
 const shoppingListService = new ShoppingListService();
 interface CreateShoppingListBody {
@@ -41,7 +42,7 @@ export const createShoppingList: RequestHandler<
       req.token
     );
 
-    res.status(200).json(shoppingList);
+    res.status(200).json(encryptResponse(shoppingList));
   } catch (error) {
     next(error);
   }
@@ -74,7 +75,7 @@ export const getShoppingListsByUser: RequestHandler<
       storeId
     );
 
-    res.status(200).json(shoppingList);
+    res.status(200).json(encryptResponse(shoppingList));
   } catch (error) {
     next(error);
   }
@@ -169,7 +170,7 @@ export const getShoppingListShortestPath: RequestHandler<
       products,
       req.token
     );
-    res.status(200).json(paths);
+    res.status(200).json(encryptResponse(paths));
   } catch (error) {
     next(error);
   }
