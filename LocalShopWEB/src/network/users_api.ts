@@ -1,6 +1,6 @@
 import { User, UserType } from "../models/user";
 import { ProfileForm } from "../pages/ProfilePage";
-import ApiService from "./apiUsers";
+import ApiService from "./api";
 //USER ROUTES
 const apiService = ApiService.getInstance();
 

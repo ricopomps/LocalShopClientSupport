@@ -1,5 +1,5 @@
 import { UserType } from "../models/user";
-import ApiService from "./apiUsers";
+import ApiService from "./api";
 
 export interface SendRecoverPasswordEmailForm {
   email: string;

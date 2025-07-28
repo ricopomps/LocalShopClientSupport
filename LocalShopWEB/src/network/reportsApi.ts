@@ -1,6 +1,6 @@
 import { endOfMonth, startOfMonth } from "date-fns";
 import { Charts } from "../pages/ReportsPage";
-import ApiService from "./apiReports";
+import ApiService from "./api";
 
 interface SingularValue {
   label: string;

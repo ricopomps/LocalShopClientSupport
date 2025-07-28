@@ -1,4 +1,4 @@
-import ApiService from "./apiNotification";
+import ApiService from "./api";
 
 export interface Notification {
   _id: string;

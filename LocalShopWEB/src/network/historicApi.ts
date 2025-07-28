@@ -1,5 +1,5 @@
 import { Historic } from "../models/historic";
-import ApiService from "./apiHistory";
+import ApiService from "./api";
 
 const baseUrl = "/api/shoppingListHistory";
 const apiService = ApiService.getInstance();

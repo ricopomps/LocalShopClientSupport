@@ -1,6 +1,6 @@
 import { CellCoordinates } from "../components/Grid";
 import { ProductItem } from "../context/ShoppingListContext";
-import ApiService from "./apiShop";
+import ApiService from "./api";
 
 export interface ShoppingList {
   storeId: string;
