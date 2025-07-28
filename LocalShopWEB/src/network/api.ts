@@ -1,4 +1,5 @@
 import axios from "axios";
+import CryptoJS from "crypto-js";
 
 class ApiService {
   private static apiServiceInstance: ApiService;
@@ -7,6 +8,8 @@ class ApiService {
   private requestInterceptor: number;
   private responseInterceptor: number;
   private setContextAccessToken: ((accessToken: string) => void) | null;
+
+  private encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY ?? "secretKey"; // TODO: use a cleanEnv file to correctly type this variable
 
   constructor() {
     this.api = axios.create({
@@ -46,19 +49,57 @@ class ApiService {
     return this.api;
   }
 
+  private encryptData(data: any) {
+    const jsonStr = JSON.stringify(data);
+    const encrypted = CryptoJS.AES.encrypt(
+      jsonStr,
+      this.encryptionKey
+    ).toString();
+    return { data: encrypted };
+  }
+
+  private decryptData(encrypted: string) {
+    const bytes = CryptoJS.AES.decrypt(encrypted, this.encryptionKey);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    return JSON.parse(decrypted);
+  }
+
   private applyInterceptors(accessToken: string) {
     const requestIntercept = this.api.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
+
+        const method = config.method?.toUpperCase() ?? "";
+        if (
+          ["POST", "PUT", "PATCH"].includes(method) &&
+          config.data &&
+          typeof config.data === "object"
+        ) {
+          config.data = this.encryptData(config.data);
+        }
+
         return config;
       },
       (error) => Promise.reject(error)
     );
 
     const responseIntercept = this.api.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        if (
+          response?.data &&
+          typeof response.data === "object" &&
+          typeof response.data.data === "string"
+        ) {
+          try {
+            response.data = this.decryptData(response.data.data);
+          } catch (err) {
+            console.warn("⚠️ Decryption failed:", err);
+          }
+        }
+        return response;
+      },
       async (error) => {
         const prevRequest = error?.config;
         if (error?.response?.status === 403 && !prevRequest?.sent) {
@@ -66,9 +107,11 @@ class ApiService {
           const {
             data: { accessToken: newAccessToken },
           } = await this.api.get(`/api/auth/refresh`);
+
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           if (this.setContextAccessToken)
             this.setContextAccessToken(newAccessToken);
+
           return this.api(prevRequest);
         }
         return Promise.reject(error);

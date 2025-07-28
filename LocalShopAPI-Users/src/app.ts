@@ -6,6 +6,7 @@ import express, { NextFunction, Request, Response } from "express";
 import session from "express-session";
 import createHttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
+import { decryptBody } from "./middleware/decryptBody";
 import authRoutes from "./routes/auth";
 import usersRoutes from "./routes/users";
 import env from "./util/validateEnv";
@@ -31,7 +32,7 @@ app.use(
 );
 
 app.use(express.json());
-
+app.use(decryptBody);
 app.use(
   session({
     secret: env.SESSION_SECRET,

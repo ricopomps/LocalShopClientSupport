@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
 import mongoose, { Types } from "mongoose";
+import { encryptResponse } from "../middleware/encryptResponse";
 import StoreModel, { StoreCategories } from "../models/store";
 import { StoreService } from "../service/storeService";
 import { assertIsDefined } from "../util/assertIsDefined";
@@ -30,7 +31,7 @@ export const setSessionStoreId: RequestHandler = async (req, res, next) => {
 export const getStores: RequestHandler = async (req, res, next) => {
   try {
     const stores = await StoreModel.find().exec();
-    res.status(200).json(stores);
+    res.status(200).json(encryptResponse(stores));
   } catch (error) {
     next(error);
   }
@@ -59,7 +60,7 @@ export const getStore: RequestHandler<
       throw createHttpError(404, "Store não encontrada");
     }
 
-    res.status(200).json(store);
+    res.status(200).json(encryptResponse(store));
   } catch (error) {
     next(error);
   }
@@ -116,7 +117,7 @@ export const createStores: RequestHandler<
     });
 
     req.storeId = newStore._id;
-    res.status(201).json(newStore);
+    res.status(201).json(encryptResponse(newStore));
   } catch (error) {
     next(error);
   }
@@ -172,7 +173,7 @@ export const updateStore: RequestHandler<
 
     const updatedStore = await store.save();
 
-    res.status(200).json(updatedStore);
+    res.status(200).json(encryptResponse(updatedStore));
   } catch (error) {
     next(error);
   }
@@ -233,7 +234,7 @@ export const getStoreByLoggedUser: RequestHandler = async (req, res, next) => {
       return res.sendStatus(204);
     }
 
-    res.status(200).json(store);
+    res.status(200).json(encryptResponse(store));
   } catch (error) {
     next(error);
   }
@@ -242,7 +243,7 @@ export const getStoreByLoggedUser: RequestHandler = async (req, res, next) => {
 export const getStoreCategories: RequestHandler = async (req, res, next) => {
   try {
     const storeCategories = Object.values(StoreCategories);
-    res.status(200).json({ categories: storeCategories });
+    res.status(200).json(encryptResponse({ categories: storeCategories }));
   } catch (error) {
     next(error);
   }
@@ -300,7 +301,7 @@ export const listStores: RequestHandler<
       req.token,
       jsonFavorite
     );
-    res.status(200).json(stores);
+    res.status(200).json(encryptResponse(stores));
   } catch (error) {
     next(error);
   }

@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import mongoose, { ObjectId, Types } from "mongoose";
+import { encryptResponse } from "../middleware/encryptResponse";
 import ProductModel, { ProductCategories } from "../models/product";
 import {
   IProductService,
@@ -34,7 +35,7 @@ export const getProducts: RequestHandler<
       .skip(page * take)
       .exec();
 
-    res.status(200).json(products);
+    res.status(200).json(encryptResponse(products));
   } catch (error) {
     next(error);
   }
@@ -50,7 +51,7 @@ export const getProduct: RequestHandler = async (req, res, next) => {
 
     const product = await productService.getProduct(productId);
 
-    res.status(200).json(product);
+    res.status(200).json(encryptResponse(product));
   } catch (error) {
     next(error);
   }
@@ -128,7 +129,7 @@ export const createProducts: RequestHandler<
       salePercentage,
     });
 
-    res.status(201).json(newProduct);
+    res.status(201).json(encryptResponse(newProduct));
   } catch (error) {
     next(error);
   }
@@ -200,7 +201,7 @@ export const updateProduct: RequestHandler<
       req.token
     );
 
-    res.status(200).json(updatedProduct);
+    res.status(200).json(encryptResponse(updatedProduct));
   } catch (error) {
     next(error);
   }
@@ -240,7 +241,7 @@ export const deleteProduct: RequestHandler = async (req, res, next) => {
 export const getProductCategories: RequestHandler = async (req, res, next) => {
   try {
     const productsCategories = Object.values(ProductCategories);
-    res.status(200).json({ categories: productsCategories });
+    res.status(200).json(encryptResponse({ categories: productsCategories }));
   } catch (error) {
     next(error);
   }
@@ -249,7 +250,7 @@ export const getProductCategories: RequestHandler = async (req, res, next) => {
 export const getSortOptions: RequestHandler = async (req, res, next) => {
   try {
     const productsCategories = Object.values(ProductSort);
-    res.status(200).json({ sortOptions: productsCategories });
+    res.status(200).json(encryptResponse({ sortOptions: productsCategories }));
   } catch (error) {
     next(error);
   }
@@ -338,7 +339,7 @@ export const listProducts: RequestHandler<
       sort
     );
 
-    res.status(200).json(products);
+    res.status(200).json(encryptResponse(products));
   } catch (error) {
     next(error);
   }
@@ -350,7 +351,7 @@ export const getProductList: RequestHandler = async (req, res, next) => {
     assertIsDefined(storeId);
 
     const products = await ProductModel.find({ storeId }).select("name").exec();
-    res.status(200).json(products);
+    res.status(200).json(encryptResponse(products));
   } catch (error) {
     next(error);
   }
@@ -371,7 +372,7 @@ export const getProductsList: RequestHandler<
 
     const products = await productService.getProducts(productsIds);
 
-    res.status(200).json(products);
+    res.status(200).json(encryptResponse(products));
   } catch (error) {
     next(error);
   }
@@ -398,7 +399,7 @@ export const removeStock: RequestHandler<
       req.token
     );
 
-    res.status(200).json(products);
+    res.status(200).json(encryptResponse(products));
   } catch (error) {
     next(error);
   }
