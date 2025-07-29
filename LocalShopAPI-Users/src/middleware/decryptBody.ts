@@ -1,8 +1,7 @@
 import CryptoJS from "crypto-js";
 import { NextFunction, Request, Response } from "express";
 
-const encryptionKey: string =
-  process.env.REACT_APP_ENCRYPTION_KEY ?? "secretKey"; // TODO: use a cleanEnv wrapper like `envalid` or `zod-env` for better safety
+const encryptionKey: string = process.env.ENCRYPTION_KEY ?? "secretKey"; // TODO: use a cleanEnv wrapper like `envalid` or `zod-env` for better safety
 
 export function decryptBody(
   req: Request,

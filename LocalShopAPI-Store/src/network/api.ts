@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import CryptoJS from "crypto-js";
 
 class ApiService {
   private api: AxiosInstance;
@@ -6,6 +7,7 @@ class ApiService {
   private requestInterceptor: number;
   private responseInterceptor: number;
   private setContextAccessToken: ((accessToken: string) => void) | null;
+  private encryptionKey: string;
 
   constructor(baseUrl?: string) {
     this.api = axios.create({
@@ -21,6 +23,7 @@ class ApiService {
     this.requestInterceptor = 0;
     this.responseInterceptor = 0;
     this.setContextAccessToken = null;
+    this.encryptionKey = process.env.ENCRYPTION_KEY ?? "secretKey";
   }
 
   setAccessToken(
@@ -46,19 +49,57 @@ class ApiService {
     return this.api;
   }
 
+  private encryptData(data: unknown): { data: string } {
+    const jsonStr = JSON.stringify(data);
+    const encrypted = CryptoJS.AES.encrypt(
+      jsonStr,
+      this.encryptionKey
+    ).toString();
+    return { data: encrypted };
+  }
+
+  private decryptData(encrypted: string): unknown {
+    const bytes = CryptoJS.AES.decrypt(encrypted, this.encryptionKey);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    return JSON.parse(decrypted);
+  }
+
   private applyInterceptors(accessToken: string) {
     const requestIntercept = this.api.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
+
+        const method = config.method?.toUpperCase() ?? "";
+        if (
+          ["POST", "PUT", "PATCH"].includes(method) &&
+          config.data &&
+          typeof config.data === "object"
+        ) {
+          config.data = this.encryptData(config.data);
+        }
+
         return config;
       },
       (error) => Promise.reject(error)
     );
 
     const responseIntercept = this.api.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        if (
+          response?.data &&
+          typeof response.data === "object" &&
+          typeof response.data.data === "string"
+        ) {
+          try {
+            response.data = this.decryptData(response.data.data);
+          } catch (err) {
+            console.warn("Decryption failed:", err);
+          }
+        }
+        return response;
+      },
       async (error) => {
         const prevRequest = error?.config;
         if (error?.response?.status === 403 && !prevRequest?.sent) {

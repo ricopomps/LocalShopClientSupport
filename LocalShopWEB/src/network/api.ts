@@ -95,7 +95,7 @@ class ApiService {
           try {
             response.data = this.decryptData(response.data.data);
           } catch (err) {
-            console.warn("⚠️ Decryption failed:", err);
+            console.warn("Decryption failed:", err);
           }
         }
         return response;
